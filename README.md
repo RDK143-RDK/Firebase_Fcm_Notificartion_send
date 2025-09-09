@@ -31,39 +31,39 @@ http://localhost:5139
 ```
 ## 📦 Required NuGet Packages
 Run these commands to install the required packages:
-
+```bash
 dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add package Microsoft.EntityFrameworkCore.Tools
 dotnet add package FirebaseAdmin
-
+```
 🛢 Database Setup
 1. Configure Database Connection
 In your appsettings.json, update the connection string:
 
 json
-
+```bash
 "ConnectionStrings": {
   "DefaultConnection": "Server=localhost;Database=MyProjectDb;Trusted_Connection=True;TrustServerCertificate=True;"
 }
 2. Add DbContext
 In ApplicationDbContext.cs:
-
+```
 csharp
-
+```bash
 using Microsoft.EntityFrameworkCore;
 using MyProject.Models;
 
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
     public DbSet<UserToken> UserTokens { get; set; }
 }
 🗄 Entity Example (UserToken.cs)
+```
 csharp
-
+```bash
 public class UserToken
 {
     public int Id { get; set; }
@@ -73,39 +73,42 @@ public class UserToken
 }
 🔧 Migration Commands
 Run these commands step by step:
+```
 
-bash
 
 # Add initial migration
+```bash
 dotnet ef migrations add InitialCreate
-
+```
 # Apply migration and create database
+```bash
 dotnet ef database update
+```
 
 # If you change models later, add new migration
+```bash
 dotnet ef migrations add UpdateUserToken
+```
 
 # Apply latest migration
+```bash
 dotnet ef database update
+```
 ▶ How to Run
-bash
-
+```bash
 dotnet build
 dotnet run
 Backend will run at:
 👉 http://localhost:5139
+```
 
 If sharing with friends remotely, use ngrok:
-
-bash
-
+```bash
 ngrok http 5139
 This gives a public URL (example):
 👉 https://xxxxxx.ngrok-free.app
+```
 
-✨ Author
-Dinesh
+✨ Author "Dineshkumar R"
 
-yaml
 
-Do you want me to also include **sample SQL queries** (like manual `INSERT`, `UPDATE` for tokens), or just keep EF Core commands?
