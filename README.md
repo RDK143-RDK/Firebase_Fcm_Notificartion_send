@@ -29,13 +29,83 @@ Default URL:
 ```
 http://localhost:5139
 ```
+## 📦 Required NuGet Packages
+Run these commands to install the required packages:
 
-## Ngrok (Optional)
-Expose your local API to the internet:
-```bash
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package FirebaseAdmin
+
+🛢 Database Setup
+1. Configure Database Connection
+In your appsettings.json, update the connection string:
+
+json
+
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost;Database=MyProjectDb;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+2. Add DbContext
+In ApplicationDbContext.cs:
+
+csharp
+
+using Microsoft.EntityFrameworkCore;
+using MyProject.Models;
+
+public class ApplicationDbContext : DbContext
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
+    public DbSet<UserToken> UserTokens { get; set; }
+}
+🗄 Entity Example (UserToken.cs)
+csharp
+
+public class UserToken
+{
+    public int Id { get; set; }
+    public string Token { get; set; }
+    public bool IsActive { get; set; }
+    public bool NotificationSent { get; set; }
+}
+🔧 Migration Commands
+Run these commands step by step:
+
+bash
+
+# Add initial migration
+dotnet ef migrations add InitialCreate
+
+# Apply migration and create database
+dotnet ef database update
+
+# If you change models later, add new migration
+dotnet ef migrations add UpdateUserToken
+
+# Apply latest migration
+dotnet ef database update
+▶ How to Run
+bash
+
+dotnet build
+dotnet run
+Backend will run at:
+👉 http://localhost:5139
+
+If sharing with friends remotely, use ngrok:
+
+bash
+
 ngrok http 5139
-```
-Share the generated HTTPS URL with others.
+This gives a public URL (example):
+👉 https://xxxxxx.ngrok-free.app
 
-## Author
-👨‍💻 Developed by **Dinesh**
+✨ Author
+Dinesh
+
+yaml
+
+Do you want me to also include **sample SQL queries** (like manual `INSERT`, `UPDATE` for tokens), or just keep EF Core commands?
